@@ -1,6 +1,8 @@
 package com.amalitech.bankaccount.customer;
 
-public abstract class Customer {
+import com.amalitech.bankaccount.interfaces.DisplayCustomerDetailsAndGetCustomerType;
+
+public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerType {
     // instance variable
     private String customerId;
     private String name;
@@ -10,16 +12,14 @@ public abstract class Customer {
     static int customerCounter;
 
 
-    public Customer(String name, int age, String contact, String address){
+    protected Customer(String name, int age, String contact, String address){
         this.name = name;
         this.age = age;
         this.contact = contact;
         this.address = address;
     }
 
-    public abstract void displayCustomerDetails();
 
-    public abstract String getCustomerType(String customerId);
 
     // Getters
     public String getName() {

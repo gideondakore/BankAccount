@@ -33,7 +33,7 @@ public class RegularCustomer extends Customer{
     }
 
     @Override
-    public String getCustomerType(String customerId) {
+    public String getCustomerType() {
         return CUSTOMER_TYPE;
     }
 

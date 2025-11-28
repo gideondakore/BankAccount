@@ -7,6 +7,7 @@ import com.amalitech.bankaccount.menu.Menu;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Main {
@@ -26,11 +27,16 @@ public class Main {
 //
 //        regularCustomer.displayCustomerDetails();
 
+        // Testing
 //        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss a");
-        LocalDateTime time = LocalDateTime.now();
-        String formattedDate = time.format(formatter);
-        IO.println("Date: "+ time);
-        IO.println("Date Formatter: " + formattedDate);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss a");
+//        LocalDateTime time = LocalDateTime.now();
+//        String formattedDate = time.format(formatter);
+//        IO.println("Date: "+ time);
+//        IO.println("Date Formatter: " + formattedDate);
+
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        IO.println("Zone Data: " + "'" +zonedDateTime.toString() +"'");
+
     }
 }

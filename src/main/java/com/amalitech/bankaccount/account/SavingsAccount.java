@@ -44,7 +44,7 @@ public class SavingsAccount extends Account{
 
 
     @Override
-    public String getCustomerType(String customerId) {
+    public String getCustomerType() {
         return CUSTOMER_TYPE;
     }
 

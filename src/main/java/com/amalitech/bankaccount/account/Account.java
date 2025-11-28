@@ -1,9 +1,10 @@
 package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
+import com.amalitech.bankaccount.interfaces.DisplayCustomerDetailsAndGetCustomerType;
 
 
-abstract class Account {
+public abstract class Account implements DisplayCustomerDetailsAndGetCustomerType {
     private final String accountNumber;
     private final Customer customer;
     private double balance;
@@ -45,9 +46,7 @@ abstract class Account {
 
 
     // Abstract methods
-    public abstract void displayCustomerDetails();
 
-    public abstract String getCustomerType(String customerId);
 
     // Regular methods
       public double deposit(double amount) throws IllegalArgumentException {
@@ -61,8 +60,6 @@ abstract class Account {
       }
 
     public double withdrawal(double amount) throws IllegalArgumentException {
-
-
         this.balance -= amount;
 
         return this.balance;
