@@ -2,14 +2,70 @@ package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
 
+
 abstract class Account {
-    private String accountNumber;
-    private Customer customer;
+    private final String accountNumber;
+    private final Customer customer;
     private double balance;
     private String status;
+    static int accountCounter;
+
+    protected Account(Customer customer){
+        this.customer = customer;
+        this.accountNumber = "ACC00" + customer.getCustomerId();
+        this.status = "active";
+        accountCounter++;
+    }
+
+    // Getters
+    public String getAccountNumber(){
+        return this.accountNumber;
+    }
+
+    public Customer getAccountCustomer(){
+        return this.customer;
+    }
+
+    public double getAccountBalance(){
+        return this.balance;
+    }
+
+    public String getAccountStatus(){
+        return this.status;
+    }
+
+    // Setters
+    public void setAccountBalance(double balance){
+        this.balance = balance;
+    }
+
+    public void setAccountStatus(String status){
+        this.status = status;
+    }
 
 
+    // Abstract methods
+    public abstract void displayCustomerDetails();
+
+    public abstract String getCustomerType(String customerId);
+
+    // Regular methods
+      public double deposit(double amount) throws IllegalArgumentException {
+          if(amount <= 0){
+              throw new IllegalArgumentException("Amount must be greater than zero");
+          }
+
+          this.balance += amount;
+
+          return this.balance;
+      }
+
+    public double withdrawal(double amount) throws IllegalArgumentException {
 
 
+        this.balance -= amount;
+
+        return this.balance;
+    }
 }
 

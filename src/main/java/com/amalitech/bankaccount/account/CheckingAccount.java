@@ -1,0 +1,60 @@
+package com.amalitech.bankaccount.account;
+
+import com.amalitech.bankaccount.customer.Customer;
+import com.amalitech.bankaccount.enums.CustomerType;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class CheckingAccount extends Account{
+    private double overdraftLimit;
+    private double monthlyFee;
+    private static final String CUSTOMER_TYPE = CustomerType.CHECKING.getDescription();
+    private LocalDate createdAt = LocalDate.now();
+
+
+    public  CheckingAccount(Customer customer){
+        super(customer);
+        overdraftLimit = 1000;
+        monthlyFee = 10;
+    }
+
+
+    @Override
+    public double withdrawal(double amount) throws IllegalArgumentException{
+        if(amount < 0){
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+
+        if((this.getAccountBalance() - amount) < 0){
+            throw new IllegalArgumentException("You have insufficient amount.");
+        }
+
+        super.withdrawal(amount);
+
+        return this.getAccountBalance();
+    }
+
+    private void applyMonthlyFee(){
+        LocalDate currentDate = LocalDate.now();
+        long days = ChronoUnit.DAYS.between(createdAt, currentDate);
+
+        if(days >= 30){
+            this.setAccountBalance(this.getAccountBalance() - monthlyFee);
+        }
+    }
+
+
+
+    @Override
+    public void displayCustomerDetails() {
+        String customerDetails = "Account Number: " + this.getAccountNumber() + "\n" + "Customer: " + this.getAccountCustomer().getName();
+        IO.println(customerDetails);
+    }
+
+
+    @Override
+    public String getCustomerType(String customerId) {
+        return CUSTOMER_TYPE;
+    }
+}

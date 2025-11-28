@@ -1,11 +1,13 @@
 package com.amalitech.bankaccount.customer;
 
 
+import com.amalitech.bankaccount.enums.CustomerType;
+
 public class RegularCustomer extends Customer{
     static final String CUSTOMER_TYPE;
 
     static {
-        CUSTOMER_TYPE = "Regular";
+        CUSTOMER_TYPE = CustomerType.REGULAR.getDescription();
     }
 
     public RegularCustomer(String name, int age, String contact, String address){
@@ -15,7 +17,7 @@ public class RegularCustomer extends Customer{
     }
 
     private void setCustomerId(int id){
-        String customerId = "ACC00" + id;
+        String customerId = "" + id;
         this.setCustomerId(customerId);
     }
 

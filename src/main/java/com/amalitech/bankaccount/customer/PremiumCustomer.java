@@ -1,16 +1,16 @@
 package com.amalitech.bankaccount.customer;
 
+import com.amalitech.bankaccount.enums.CustomerType;
+
 public class PremiumCustomer extends Customer{
     private double minimumBalance = 10000;
-    static final String CUSTOMER_TYPE = "Premium";
+    static final String CUSTOMER_TYPE = CustomerType.PREMIUM.getDescription();
 
     public PremiumCustomer(String name, int age, String contact, String address){
         super(name, age, contact, address);
         ++customerCounter;
         this.setCustomerId(customerCounter);
     }
-
-
 
     //Getters
     public double getMinimumBalance(){
@@ -22,7 +22,7 @@ public class PremiumCustomer extends Customer{
     }
 
     private void setCustomerId(int id){
-        String customerId = "ACC00" + id;
+        String customerId = "" + id;
         this.setCustomerId(customerId);
     }
 
@@ -42,5 +42,4 @@ public class PremiumCustomer extends Customer{
         return CUSTOMER_TYPE;
     }
 
-//    public abstract String getCustomerType(String customerId);
 }
