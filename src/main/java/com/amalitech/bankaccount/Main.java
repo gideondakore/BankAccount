@@ -33,7 +33,12 @@ public class Main {
                     double initialDeposit;
                     Account account;
                     Customer customer;
-                    final double MINIMUM_BALANCE = 500;
+                    final double SAVING_MINIMUM_BALANCE = 500;
+                    final double PREMIUM_CUSTOMER_MINIMUM_BALANCE = 10000;
+                    String initialDepositMsg = "Enter initial deposit amount: $";
+                    String initialDepositErrMsg = "Please provide a valid amount!";
+
+
 
 
                     CustomerRecords customerRecords = menu.createAccount();
@@ -49,30 +54,53 @@ public class Main {
                     if(customerType == CustomerType.REGULAR){
                         //Customer(String name, int age, String contact, String address)
                         customer = new RegularCustomer(name, age, contact, address);
-                    }else{
-                        customer = new PremiumCustomer(name, age, contact, address);
-                    }
 
-                    if(accountType == AccountType.SAVINGS){
+                        initialDeposit = menu.acceptDoubleInputValue(initialDepositMsg, initialDepositErrMsg);
+
+                        // Regular savings
+                        if(accountType == AccountType.SAVINGS){
+                            while (true){
+
+                                if(initialDeposit >= SAVING_MINIMUM_BALANCE){
+                                    break;
+                                }else{
+                                    IO.println("With Savings account you must have at least $" + SAVING_MINIMUM_BALANCE);
+                                    initialDeposit = menu.acceptDoubleInputValue(initialDepositMsg, initialDepositErrMsg);
+                                }
+                            }
+
+                            account = new SavingsAccount(customer);
+                        }else{
+                            account = new CheckingAccount(customer);
+                        }
+                        account.deposit(initialDeposit);
+                        account.displayCustomerDetails();
+                    }
+                    else{
+                        //PREMIUM CUSTOMER
+
                         while (true){
-                            initialDeposit = menu.acceptDoubleInputValue("Enter initial deposit amount: $", "Please provide a valid amount!");
-                            if(initialDeposit >= MINIMUM_BALANCE){
+                            initialDeposit = menu.acceptDoubleInputValue(initialDepositMsg, initialDepositErrMsg);
+
+                            if(initialDeposit >= PREMIUM_CUSTOMER_MINIMUM_BALANCE){
                                 break;
                             }else{
-                                IO.println("With Savings account you must have at least $" + MINIMUM_BALANCE);
+                                IO.println("With Premium customer account you must have at least $" + PREMIUM_CUSTOMER_MINIMUM_BALANCE);
                             }
                         }
 
-                        account = new SavingsAccount(customer);
+                        customer = new PremiumCustomer(name, age, contact, address);
+
+                        if(accountType == AccountType.SAVINGS){
+                            account = new SavingsAccount(customer);
+                        }else{
+                            account = new CheckingAccount(customer);
+                        }
+
                         account.deposit(initialDeposit);
-                    }else{
+                        account.displayCustomerDetails();
 
-                        account = new CheckingAccount(customer);
                     }
-
-
-
-                    IO.println("\nName: " + name + "\nAge: " + age + "\nContact: "+contact + "\nAddess: "+ address + "\nCustomer Type: "+ customerType + "\nAccount Type: " + accountType + "\nInitial Deposit: "+ intialDeposit);
 
                 }
             }

@@ -2,6 +2,8 @@ package com.amalitech.bankaccount.menu;
 
 
 import com.amalitech.bankaccount.account.Account;
+import com.amalitech.bankaccount.account.CheckingAccount;
+import com.amalitech.bankaccount.account.SavingsAccount;
 import com.amalitech.bankaccount.customer.Customer;
 import com.amalitech.bankaccount.enums.AccountType;
 import com.amalitech.bankaccount.enums.CustomerType;
@@ -89,11 +91,9 @@ public class Menu {
                 Herman Melville ✓
                 "A. A. Milne" ✓
                 "Abraham Van Helsing" ✓
-                "Abraham Van-Helsing" ✓
                 "Mathis d'Arias" ✓
                 "Martin Luther King, Jr." ✓
                 "Tony Montana Prez Rodriguez DeJesus del Rosario Mercedes Pilar Martínez Molina Baeza" ✓
-                "Gideon" ✓
                 """, "^[A-ZÀ-ÿ][-,a-z.' ]+( [A-ZÀ-ÿ][-,a-z.' ]+)+$").validatedStringInputValue();
         age = new InputValidationHelper("Enter customer age: ", "Please provide a valid age (1-120)!", "^(?:120|1[01][0-9]|[1-9][0-9]?)$").validatedIntInputValue();
         contact = new InputValidationHelper("Enter customer contact (+1-555-7890): ", "Please provide valid phone number!", "\\+\\d{1,3}-\\d{3}-\\d{4,12}").validatedStringInputValue();
@@ -154,27 +154,6 @@ public class Menu {
         double input;
         input = new InputValidationHelper(msg, errMsg, "").validatedDoubleInputPositiveValue();
         return input;
-    }
-
-    public void accountCreatedSuccessMsg(Customer customer, Account account){
-
-        if(customer.getType() == CustomerType.REGULAR){
-
-            if(account.getType() == AccountType.SAVINGS){
-
-            IO.println("""
-                    ✔ Account created successfully!
-                    Account Number: %s
-                    Customer: %s (%s)
-                    Account Type: %s
-                    Initial Balance: %s
-                    Interest Rate: %s
-                    %s
-                    %s
-                    """.formatted(account.getAccountNumber(), customer.getName(), customer.getType().getDescription(), account.getType().getDescription(), account.getAccountBalance(), account.getInterestRate()));
-            }
-
-        }
     }
 
 }

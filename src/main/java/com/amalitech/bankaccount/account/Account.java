@@ -16,7 +16,7 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
     protected Account(Customer customer){
         this.customer = customer;
         this.accountNumber = "ACC00" + customer.getCustomerId();
-        this.status = "active";
+        this.status = "Active";
         accountCounter++;
     }
 
@@ -39,6 +39,10 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
 
     public AccountType getType(){
         return type;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     // Setters

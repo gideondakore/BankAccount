@@ -8,7 +8,6 @@ public class PremiumCustomer extends Customer{
 
     public PremiumCustomer(String name, int age, String contact, String address){
         super(name, age, contact, address);
-        ++customerCounter;
         this.setCustomerId(customerCounter);
         this.setType(CustomerType.PREMIUM);
     }
@@ -36,11 +35,6 @@ public class PremiumCustomer extends Customer{
     public void displayCustomerDetails() {
         String customerDetails = "Account Number: " + this.getCustomerId() + "\n" + "Customer: " + this.getName() + " (" + CUSTOMER_TYPE + ")";
         IO.println(customerDetails);
-    }
-
-    @Override
-    public String getCustomerType() {
-        return CUSTOMER_TYPE;
     }
 
 }

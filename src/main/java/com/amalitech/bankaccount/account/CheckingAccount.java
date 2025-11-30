@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class CheckingAccount extends Account{
-    private double overdraftLimit;
-    private double monthlyFee;
-    private LocalDate createdAt = LocalDate.now();
+    private final double overdraftLimit;
+    private final double monthlyFee;
+    private final LocalDate createdAt = LocalDate.now();
 
 
 
@@ -20,6 +20,17 @@ public class CheckingAccount extends Account{
         this.setType(AccountType.CHECKING);
     }
 
+    public double getOverdraftLimit() {
+        return overdraftLimit;
+    }
+
+    public double getMonthlyFee() {
+        return monthlyFee;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
 
     @Override
     public double withdrawal(double amount) throws IllegalArgumentException{
@@ -57,11 +68,27 @@ public class CheckingAccount extends Account{
 
     @Override
     public void displayCustomerDetails() {
-        this.applyMonthlyFee();
-        String customerDetails = "Account Number: " + this.getAccountNumber() + "\n" + "Customer: " + this.getAccountCustomer().getName();
-        IO.println(customerDetails);
+        Customer customer = this.getCustomer();
+        IO.println("""
+                    
+                    ✔ Account created successfully!
+                    Account Number: %s
+                    Customer: %s (%s)
+                    Account Type: %s
+                    Initial Balance: %,.2f
+                    Overdraft Limit: %,.2f
+                    Monthly Fee: $%,.2f
+                    Status: %s
+                    """.formatted(
+                this.getAccountNumber(),
+                customer.getName(),
+                customer.getType().getDescription(),
+                this.getType().getDescription(),
+                this.getAccountBalance(),
+                this.overdraftLimit,
+                this.monthlyFee,
+                this.getAccountStatus()
+        ));
     }
-
-
 
 }

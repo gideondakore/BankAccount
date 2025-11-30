@@ -12,7 +12,6 @@ public class RegularCustomer extends Customer{
 
     public RegularCustomer(String name, int age, String contact, String address){
         super(name, age, contact, address);
-        ++customerCounter;
         this.setCustomerId(customerCounter);
     }
 
@@ -33,9 +32,5 @@ public class RegularCustomer extends Customer{
         IO.println(customerDetails);
     }
 
-    @Override
-    public String getCustomerType() {
-        return CUSTOMER_TYPE;
-    }
 
 }

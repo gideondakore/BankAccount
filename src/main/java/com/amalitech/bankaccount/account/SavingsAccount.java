@@ -44,8 +44,27 @@ public class SavingsAccount extends Account{
 
     @Override
     public void displayCustomerDetails() {
-        String customerDetails = "Account Number: " + this.getAccountNumber() + "\n" + "Customer: " + this.getAccountCustomer().getName();
-        IO.println(customerDetails);
-    }
+        Customer customer = this.getCustomer();
+                IO.println("""
+                    
+                    ✔ Account created successfully!
+                    Account Number: %s
+                    Customer: %s (%s)
+                    Account Type: %s
+                    Initial Balance: %,.2f
+                    Interest Rate: %,.2f%%
+                    Minimum Balance: $%,.2f
+                    Status: %s
+                    """.formatted(
+                        this.getAccountNumber(),
+                        customer.getName(),
+                        customer.getType().getDescription(),
+                        this.getType().getDescription(),
+                        this.getAccountBalance(),
+                        this.interestRate * 100,
+                        this.minimumBalance,
+                        this.getAccountStatus()
+                ));
+        }
 
 }
