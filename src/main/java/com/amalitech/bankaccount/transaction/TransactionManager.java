@@ -6,14 +6,22 @@ import com.amalitech.bankaccount.enums.TransactionType;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class TransactionManager {
-    private ArrayList<Transaction> transactions = new ArrayList<>(200);
+    private final ArrayList<Transaction> transactions = new ArrayList<>(200);
     private int transactionCount;
-    private static int transactionCounter;
+    static int transactionCounter;
 
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
+        transactionCounter++;
+    }
+
+    public List<Transaction> getTransactions(){
+        return  this.transactions;
     }
 
     public void previewTransactionConfirmation(Account account, TransactionType transactionType, double transactionAmount){
@@ -32,50 +40,66 @@ public class TransactionManager {
                 Previous Balance: $%,.2f
                 New Balance: $%,.2f
                 Date/Time: %s
+                ----------------------------------------------------------------------------------------
                 """.formatted(txnID, account.getAccountNumber(), transactionType.getDescription(), transactionAmount, account.getAccountBalance(), newBalance, ZonedDateTime.now().toString()));
     }
 
     public void viewTransactionsByAccount(String accountNumber){
-        if(this.transactions.isEmpty()){
+
+        List<Transaction> newTransactions = getAllTransactions(accountNumber, this.transactions);
+
+        if(newTransactions.isEmpty()){
             IO.println("""
                     -------------------------------------------
                     No transaction recorded for this account.
                     -------------------------------------------
                     """);
-
             return;
         }
+
+
 
 
         StringBuilder stringBuilder = new StringBuilder();
 
         String heading = """
-                %s            |
-                %s            |
-                %s            |
-                %s            |
-                %s
+                TRANSACTION HISTORY
+                --------------------------------------------------------------------------------------------------------
+                %s              | %s                | %s                | %s                | %s
+                --------------------------------------------------------------------------------------------------------
                 """.formatted("TXN ID", "DATE/TIME", "TYPE", "AMOUNT", "BALANCE");
 
 
         stringBuilder.append(heading);
 
-        for(Transaction trn: this.transactions){
 
-            if(!accountNumber.equals(trn.getAccountNumber()))
-                continue;
+        String negSigned = """
+                    %s              | %s                | %s                | -$%,.2f                | %,.2f
+                   """;
 
+        String posSigned = """
+                    %s              | %s                | %s                | +$%,.2f                | %,.2f
+                   """;
+
+
+
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(newTransactions);
+        sortedTransactions.sort(Comparator.comparing(
+                Transaction::parseTimeStamp).reversed()
+        );
+
+        for(Transaction trn: sortedTransactions){
             String tempStr;
-            tempStr = """
-                    %s            |
-                    %s            |
-                    %s            |
-                    %s            |
-                    %s
-                   """.formatted(trn.getTransactionId(), trn.getTimestamp(), trn.getType(), trn.getAmount(), trn.getBalanceAfter());
+
+            if(trn.getType().equals(TransactionType.DEPOSIT.getDescription())){
+                tempStr = posSigned.formatted(trn.getTransactionId(), trn.getTimestamp(), trn.getType(), trn.getAmount(), trn.getBalanceAfter());
+            }else{
+                tempStr = negSigned.formatted(trn.getTransactionId(), trn.getTimestamp(), trn.getType(), trn.getAmount(), trn.getBalanceAfter());
+            }
 
             stringBuilder.append(tempStr).append("\n");
         }
+        stringBuilder.append("--------------------------------------------------------------------------------------------------------");
 
         IO.println(stringBuilder.toString());
     }
@@ -124,6 +148,22 @@ public class TransactionManager {
 
     public int getTransactionCount(){
         return transactionCount;
+    }
+
+    public List<Transaction> getAllTransactions(String accNumber, List<Transaction> transactions){
+
+        ArrayList<Transaction> transactions1 = new ArrayList<>();
+
+        for(Transaction transaction: transactions){
+            if(transaction.getAccountNumber().equals(accNumber)){
+                transactions1.add(transaction);
+            }
+        }
+
+        if(transactions1.isEmpty()) return Collections.emptyList();
+
+        return transactions1;
+
     }
 
 }

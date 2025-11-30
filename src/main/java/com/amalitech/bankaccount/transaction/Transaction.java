@@ -1,6 +1,8 @@
 package com.amalitech.bankaccount.transaction;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     static int transactionCounter;
@@ -10,6 +12,10 @@ public class Transaction {
     private double amount;
     private double balanceAfter;
     private String timestamp;
+
+    public Transaction(){
+        super();
+    }
 
     public Transaction(String accNumber, double amt, double balAfter){
         this.accountNumber = accNumber;
@@ -25,7 +31,14 @@ public class Transaction {
     }
 
     private void generateTimeStamp(){
-        timestamp = ZonedDateTime.now().toString();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
+        timestamp = now.format(formatter);
+    }
+
+    public LocalDateTime parseTimeStamp(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
+        return LocalDateTime.parse(timestamp, formatter);
     }
 
     // Getters
@@ -52,6 +65,7 @@ public class Transaction {
     public String getTimestamp() {
         return timestamp;
     }
+
 
     // Setters
     public void setType(String type){

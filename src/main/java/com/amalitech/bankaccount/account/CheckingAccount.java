@@ -35,7 +35,7 @@ public class CheckingAccount extends Account{
     public String viewAllAccounts(Customer customer){
         return """
                 %s            |  %s             |  %s           |  %s           |  %s
-                              |  Overdraft Limit: %,.2f         | Monthly Fee: %,.2f
+                              |  Overdraft Limit: $%,.2f         | Monthly Fee: $%,.2f
                 """.formatted(this.getAccountNumber(), customer.getName(), this.getType().getDescription(), this.getAccountBalance(), this.getAccountStatus(), this.overdraftLimit, this.monthlyFee);
     }
 

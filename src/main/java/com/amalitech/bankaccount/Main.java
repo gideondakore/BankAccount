@@ -6,6 +6,7 @@ import com.amalitech.bankaccount.enums.AccountType;
 import com.amalitech.bankaccount.enums.CustomerType;
 import com.amalitech.bankaccount.menu.Menu;
 import com.amalitech.bankaccount.records.CustomerRecords;
+import com.amalitech.bankaccount.transaction.TransactionManager;
 
 public class Main {
 
@@ -17,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
         AccountManager accountManager = new AccountManager();
+        TransactionManager transactionManager = new TransactionManager();
 
         while (true) {
             menu.intro();
@@ -30,7 +32,8 @@ public class Main {
             switch (input) {
                 case 1 -> handleCreateAccount(menu, accountManager);
                 case 2 -> accountManager.viewAllAccounts();
-                case 3 -> menu.processTransaction(accountManager.getAccount());
+                case 3 -> menu.processTransaction(accountManager.getAccount(), transactionManager);
+                case 4 -> menu.viewTransactionHistory(accountManager.getAccount(), transactionManager);
                 default -> IO.println("Oops! Incorrect choice, try again.");
             }
 

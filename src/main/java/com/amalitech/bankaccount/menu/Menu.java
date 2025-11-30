@@ -114,7 +114,7 @@ public class Menu {
         return new CustomerRecords(name, age, contact, address);
     }
 
-    public void processTransaction(List<Account> account){
+    public void processTransaction(List<Account> account, TransactionManager transactionManager){
         IO.println("""
                 
                 PROCESS TRANSACTION
@@ -171,7 +171,7 @@ public class Menu {
 
             try{
 
-            this.makeTransaction(selectedAcc, transactionAmount, transactionType);
+            this.makeTransaction(selectedAcc, transactionAmount, transactionType, transactionManager);
             IO.println("✔ Transaction completed successfully!");
             done = true;
             }catch (IllegalArgumentException err){
@@ -276,15 +276,18 @@ public class Menu {
 
     }
 
-    public void makeTransaction(Account account, double transactionAmount, TransactionType transactionType) throws IllegalArgumentException{
+    public void makeTransaction(Account account, double transactionAmount, TransactionType transactionType, TransactionManager transactionManager) throws IllegalArgumentException{
+        Transaction transaction;
         if(transactionType == TransactionType.DEPOSIT) {
             account.deposit(transactionAmount);
-            new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() + transactionAmount);
-
+            transaction = new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() + transactionAmount);
         } else {
             account.withdrawal(transactionAmount);
-            new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() - transactionAmount);
+            transaction = new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() - transactionAmount);
         }
+        transaction.setType(transactionType.getDescription());
+        IO.println("Added transaction: " + transaction.getTransactionId());
+        transactionManager.addTransaction(transaction);
     }
 
     public char promptValidYesOrNo(){
@@ -301,5 +304,44 @@ public class Menu {
         return yesOrNo;
 
     }
+
+    public void viewTransactionHistory(List<Account> account, TransactionManager transactionManager){
+        String accNumber;
+        Account selectedAcc;
+
+        IO.println("""
+                
+                VIEW TRANSACTION HISTORY
+                --------------------------
+                """);
+
+        do {
+            accNumber = new InputValidationHelper("Enter Account Number: ", """
+                    Please provide a valid account number!
+                    
+                    Example format:
+                    ACC001
+                    ACC002
+                    ACC0010
+                    ACC00120
+                    """, "^ACC00\\d+$").validatedStringInputValue();
+
+            selectedAcc = this.getAccountForTransaction(account, accNumber);
+
+        } while (selectedAcc == null);
+
+
+        IO.println("""
+                
+                Account: %s - %s
+                Account Type: %s
+                Current Balance: $%,.2f
+                
+                """.formatted(selectedAcc.getAccountNumber(), selectedAcc.getAccountCustomer().getName(), selectedAcc.getType().getDescription(), selectedAcc.getAccountBalance()));
+
+        transactionManager.viewTransactionsByAccount(accNumber);
+    }
+
+
 
 }
