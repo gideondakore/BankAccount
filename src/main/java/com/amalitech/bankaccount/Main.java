@@ -20,6 +20,7 @@ public class Main {
         AccountManager accountManager = new AccountManager();
         TransactionManager transactionManager = new TransactionManager();
 
+
         while (true) {
             menu.intro();
             int input = menu.getChoice();
@@ -94,4 +95,5 @@ public class Main {
                 ? new SavingsAccount(customer)
                 : new CheckingAccount(customer);
     }
+
 }

@@ -1,7 +1,7 @@
 # Bank Account Management System
 
 A **console-based Java application** built using **Object-Oriented Programming (OOP)** principles and **Maven**.  
-The system allows users to manage basic banking operations such as creating accounts, depositing money, withdrawing funds, and viewing account information. This project was developed as part of an academic assignment following structured requirements for OOP design and console interaction.
+The system allows users to manage basic banking operations such as creating accounts, depositing money, withdrawing funds, and viewing account information. This project was developed as part of an NSS assignment following structured requirements for OOP design and console interaction.
 
 ---
 
@@ -34,6 +34,10 @@ BankAccount/
 
 ├── src/
 
+│ └── docs/
+
+│ └── images/
+
 │ └── main/
 
 │ └── java/
@@ -57,6 +61,8 @@ BankAccount/
 │ ├── transaction/ # Transaction classes
 
 │ └── Main.java # Application entry point with console menu
+
+├── LICENSE # MIT license
 
 ├── pom.xml # Maven configuration file
 
@@ -110,16 +116,16 @@ When the application starts, you will see a menu such as:
 
 Each option executes a corresponding service method, such as:
 
-handleCreateAccount()
-viewAllAccounts()
-processTransaction()
+handleCreateAccount(),  
+viewAllAccounts(),  
+processTransaction(),   
 viewTransactionHistory()
 
 The system stores all account data temporarily in memory using Java collections.
 
 ## 👤 Author
 
-Gideon Dakore
+Gideon Dakore   
 GitHub: https://github.com/gideondakore
 
 ## 📸 Screen Shots
